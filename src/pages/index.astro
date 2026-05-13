@@ -1,10 +1,72 @@
 ---
 import BaseLayout from "../layouts/Layout.astro";
+
+
+import { getCollection } from "astro:content";
+
+const posts = await getCollection("blog");
+
+posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
 
-<BaseLayout title="A place">
-  <h2>Welcome</h2>
-  <p>This is my personal blog.</p>
-  <p>I write about programming, projects, and learning notes.</p>
-  <p>hi</p>
+<BaseLayout title="一个网站">
+  <h2 class="title">Good night</h2>
+  <p class="subtitle">良い夢が見られますように</p>
+
+  <p>This is a place still under construction</p>
+  <p>But I'll list some links here anyway</p>
+  <p style="text-decoration:line-through"><a href="https://github.com/EatKFCinMc/IdleScreen" target="_blank">一个实用性为零，但是我自己用很爽的小project</a></p>
+  <p>经过和gpt一个小时的鏖战，找到了为什么windows熄屏过后会直接锁屏，具体原因有空了研究研究再写</p>
+  <p><a href="/blog/001-ump/" target="_blank">一个我很喜欢，但是写起来有点难的大project</a></p>
+  <p>上面这个我是真的喜欢，TUI风格的音乐播放器很酷好吗</p>
+  <a style="text-decoration:line-through;">但是很久没push了（</a>
+  <p>在近日获得了重大更新（也没有很重大，）总之比原来好看多了</p>
+  <p>说起来这个名字很难听，也是我随便取的，来募集点好听的名字，目前一个预想的是pumu，灵感是把ump倒过来再加个u方便读（什么鬼取名方式啊</p>
+  <p>最近才修完一个卡了半年的bug，只是因为一个terminal attribute变化导致kitty graphic protocol会卡死</p>
+  <p>虽然我早就应该直接跳过直接去做交互部分和修播放器的bug，但我就是想死磕</p>
+  <p>有时间去了解下这个terminal attribute到底是什么，因为代码是从stack overflow抄来的（</p>
+  <p><a href="https://music.163.com/playlist?id=424571914" target="_blank">塞满了奇妙大锅炖的歌单</a></p>
+
+  <ul>
+    {
+      posts.map((post) => (
+          <li>
+            <a href={`/blog/${post.id}/`}>
+              <strong>{post.data.title}</strong>
+            </a>
+            <br />
+            <small>{post.data.date.toDateString()}</small>
+            <p>{post.data.description}</p>
+          </li>
+      ))
+    }
+  </ul>
+  
 </BaseLayout>
+
+<style>
+  
+  a:link,
+  a:visited,
+  a:active {
+    text-decoration:none;
+    color: #2563eb;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  h2.title{
+    padding: 30px 0 0 0;
+    line-height: 0;
+    font-size: 40px;
+  }
+  
+  p.subtitle {
+    line-height:50%;
+    font-style:italic;
+    padding: 0 0 2rem 0;
+  }
+  
+</style>

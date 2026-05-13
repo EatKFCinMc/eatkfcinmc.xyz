@@ -9,10 +9,8 @@ posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 console.log(posts);
 ---
 
-<BaseLayout title="Blog | My Blog">
-  <h2>Blog</h2>
-
-  <p>Total posts: {posts.length}</p>
+<BaseLayout title="Some bolgs? or blogs?">
+  <h2>Bolg</h2>
 
   <ul>
     {
@@ -29,3 +27,19 @@ console.log(posts);
     }
   </ul>
 </BaseLayout>
+
+
+<style>
+
+  a:link,
+  a:visited,
+  a:active {
+    text-decoration:none;
+    color: #2563eb;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+</style>

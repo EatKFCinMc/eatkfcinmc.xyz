@@ -15,14 +15,29 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<BaseLayout title={`${post.data.title} | My Blog`}>
-  <article>
-    <h2>{post.data.title}</h2>
-    <p>{post.data.description}</p>
-    <small>{post.data.date.toDateString()}</small>
+<BaseLayout title={`${post.data.title}`}>
+    <article>
+        <h1>{post.data.title}</h1>
+        <p>{post.data.description}</p>
+        <small>{post.data.date.toDateString()}</small>
 
-    <hr />
-
-    <Content />
-  </article>
+        <Content />
+    </article>
 </BaseLayout>
+
+<style>
+    :global(a:link),
+    :global(a:visited),
+    :global(a:active) {
+        text-decoration:none;
+        color: #2563eb;
+    }
+
+    :global(a:hover) {
+        text-decoration: underline;
+    }
+
+    :global(img) {
+        width: 800px;
+    }
+</style>
