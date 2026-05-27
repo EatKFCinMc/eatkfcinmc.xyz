@@ -15,7 +15,7 @@ tags: ["blog", "project", "ump"]
 
 然后附上最新的demo图片，目前对非英文字符的兼容完全没做，另一个明显的问题是打开过大的文件夹时加载速度有点太长了，因为都在独立的只有几个文件的文件夹做测试，直到我在我的主音乐文件夹做测试才发现这个问题
 
-![demo](/images/ump_demo.png)
+![demo](/images/ump_demo01.png)
 
 使用了引以为傲的kitty graphic protocol显示高分辨率图片，代价是完全没做非kitty terminal emulator的适配（
 

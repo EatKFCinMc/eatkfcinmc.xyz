@@ -57,6 +57,7 @@ const { title = "A website" } = Astro.props;
 
 <style>
   html {
+    box-sizing: border-box;
     min-height: 100%;
     background-image: var(--page-bg);
     background-size: cover;
@@ -64,22 +65,51 @@ const { title = "A website" } = Astro.props;
     background-repeat: no-repeat;
     background-attachment: fixed;
   }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
+  }
   
   body {
+    --content-width: 900px;
+    --layout-gap: 3rem;
+
+    box-sizing: border-box;
     font-family: system-ui, sans-serif;
-    max-width: 1200px;
-    margin: 10px auto auto auto;
-    padding: 2rem;
+    background: transparent;
+    min-height: calc(100vh - 4rem - 10px);
+    margin: 0;
+    padding: calc(2rem + 10px) 2rem 2rem;
+    isolation: isolate;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image: var(--page-bg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
   }
 
   .page-layout {
-    display: flex;
+    display: grid;
+    grid-template-columns: max-content minmax(0, var(--content-width));
+    gap: var(--layout-gap);
+    align-items: start;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 auto;
+    transform: translateX(var(--layout-scrollbar-compensation, 0));
   }
   
   .sidebar {
-    width: 350px;
-    padding: 32px 24px;
     box-sizing: border-box;
+    padding: 32px 24px;
   }
   
   .profile-photo {
@@ -93,6 +123,7 @@ const { title = "A website" } = Astro.props;
   }
 
   .sidebar-text {
+    width: max-content;
     background: #fafafab0;
     border-radius: 25px;
     padding: 0.5rem 1rem 1rem;
@@ -106,6 +137,7 @@ const { title = "A website" } = Astro.props;
   .sidebar-text p {
     margin: 8px 0;
     line-height: 1.5;
+    white-space: nowrap;
   }
 
   .sidebar-text a:link,
@@ -117,10 +149,13 @@ const { title = "A website" } = Astro.props;
   }
   
   .content {
-    min-width: 600px;
-    margin: 0 3rem;
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
     padding: 2rem 3rem;
     line-height: 1.6;
+    overflow-wrap: break-word;
     color: #222;
     background: #fafafab0;
     border-radius: 25px;
@@ -161,19 +196,23 @@ const { title = "A website" } = Astro.props;
   
   @media (max-width: 768px) {
     body {
-      max-width: none;
+      min-height: calc(100vh - 2rem);
       margin: 0;
       padding: 1rem;
     }
 
     .page-layout {
-      flex-direction: column;
+      display: block;
       min-height: auto;
     }
 
     .sidebar {
       width: 100%;
       padding: 1.5rem 1rem;
+    }
+
+    .sidebar-text {
+      width: auto;
     }
 
     .profile-photo {
@@ -188,14 +227,14 @@ const { title = "A website" } = Astro.props;
 
     .sidebar-text p {
       font-size: 0.95rem;
+      white-space: normal;
     }
 
     .content {
       width: 100%;
-      flex: none;
+      min-width: 0;
       margin: 0;
       padding: 1.5rem;
-      box-sizing: border-box;
       border-radius: 18px;
     }
 
@@ -232,4 +271,27 @@ const { title = "A website" } = Astro.props;
       "--page-bg",
       `url("${randomBackground}")`
   );
+
+  const scrollbarProbe = document.createElement("div");
+  scrollbarProbe.style.cssText =
+      "position:absolute;visibility:hidden;overflow:scroll;width:100px;height:100px;";
+  document.body.appendChild(scrollbarProbe);
+  const scrollbarWidth = scrollbarProbe.offsetWidth - scrollbarProbe.clientWidth;
+  scrollbarProbe.remove();
+
+  const syncLayoutCompensation = () => {
+    const hasVerticalScroll =
+        document.documentElement.scrollHeight >
+        document.documentElement.clientHeight;
+    const isDesktop = window.matchMedia("(min-width: 769px)").matches;
+    document.documentElement.style.setProperty(
+        "--layout-scrollbar-compensation",
+        !hasVerticalScroll && isDesktop
+            ? `${scrollbarWidth / -2}px`
+            : "0px"
+    );
+  };
+
+  syncLayoutCompensation();
+  window.addEventListener("resize", syncLayoutCompensation);
 </script>
