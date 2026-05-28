@@ -1,4 +1,6 @@
 ---
+import RandomCloudBackground from "../components/RandomCloudBackground.astro";
+
 const { title = "A website" } = Astro.props;
 ---
 
@@ -11,6 +13,8 @@ const { title = "A website" } = Astro.props;
   </head>
   
   <body>
+    <RandomCloudBackground />
+
     <div class="page-layout">
       <aside class="sidebar">
         <img
@@ -52,20 +56,37 @@ const { title = "A website" } = Astro.props;
         
       </div>
     </div>
+
+    <script is:inline>
+      (() => {
+        const syncLayoutCompensation = () => {
+          const scrollbarProbe = document.createElement("div");
+          scrollbarProbe.style.cssText =
+            "position:absolute;visibility:hidden;overflow:scroll;width:100px;height:100px;";
+          document.body.appendChild(scrollbarProbe);
+          const scrollbarWidth =
+            scrollbarProbe.offsetWidth - scrollbarProbe.clientWidth;
+          scrollbarProbe.remove();
+
+          const hasVerticalScroll =
+            document.documentElement.scrollHeight >
+            document.documentElement.clientHeight;
+          const isDesktop = window.matchMedia("(min-width: 769px)").matches;
+          document.documentElement.style.setProperty(
+            "--layout-scrollbar-compensation",
+            !hasVerticalScroll && isDesktop ? `${scrollbarWidth / -2}px` : "0px"
+          );
+        };
+
+        syncLayoutCompensation();
+        window.addEventListener("load", syncLayoutCompensation);
+        window.addEventListener("resize", syncLayoutCompensation);
+      })();
+    </script>
   </body>
 </html>
 
 <style>
-  html {
-    box-sizing: border-box;
-    min-height: 100%;
-    background-image: var(--page-bg);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-  }
-
   *,
   *::before,
   *::after {
@@ -83,17 +104,6 @@ const { title = "A website" } = Astro.props;
     margin: 0;
     padding: calc(2rem + 10px) 2rem 2rem;
     isolation: isolate;
-  }
-
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    background-image: var(--page-bg);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
   }
 
   .page-layout {
@@ -248,50 +258,3 @@ const { title = "A website" } = Astro.props;
     }
   }
 </style>
-
-<script is:inline>
-  const backgrounds = [
-    "/background/cloud/bg0.jpg",
-    "/background/cloud/bg1.jpg",
-    "/background/cloud/bg2.jpg",
-    "/background/cloud/bg3.JPG",
-    "/background/cloud/bg4.JPG",
-    "/background/cloud/bg5.JPG",
-    "/background/cloud/bg6.JPG",
-    "/background/cloud/bg7.JPG",
-    "/background/cloud/bg8.JPG",
-    "/background/cloud/bg9.JPG",
-    "/background/cloud/bg10.JPG",
-  ];
-
-  const randomBackground =
-      backgrounds[Math.floor(Math.random() * backgrounds.length)];
-
-  document.documentElement.style.setProperty(
-      "--page-bg",
-      `url("${randomBackground}")`
-  );
-
-  const scrollbarProbe = document.createElement("div");
-  scrollbarProbe.style.cssText =
-      "position:absolute;visibility:hidden;overflow:scroll;width:100px;height:100px;";
-  document.body.appendChild(scrollbarProbe);
-  const scrollbarWidth = scrollbarProbe.offsetWidth - scrollbarProbe.clientWidth;
-  scrollbarProbe.remove();
-
-  const syncLayoutCompensation = () => {
-    const hasVerticalScroll =
-        document.documentElement.scrollHeight >
-        document.documentElement.clientHeight;
-    const isDesktop = window.matchMedia("(min-width: 769px)").matches;
-    document.documentElement.style.setProperty(
-        "--layout-scrollbar-compensation",
-        !hasVerticalScroll && isDesktop
-            ? `${scrollbarWidth / -2}px`
-            : "0px"
-    );
-  };
-
-  syncLayoutCompensation();
-  window.addEventListener("resize", syncLayoutCompensation);
-</script>

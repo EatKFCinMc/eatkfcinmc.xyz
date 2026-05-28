@@ -1,0 +1,72 @@
+---
+import RandomCloudBackground from "../components/RandomCloudBackground.astro";
+
+const { title = "Portfolio" } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <link rel="icon" type="image/png" href="/icon.png" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{title}</title>
+  </head>
+
+  <body>
+    <RandomCloudBackground />
+
+    <main class="portfolio-shell">
+      <slot />
+    </main>
+  </body>
+</html>
+
+<style>
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
+  }
+
+  body {
+    box-sizing: border-box;
+    min-height: 100vh;
+    margin: 0;
+    padding: 2rem;
+    font-family: system-ui, sans-serif;
+    color: #202124;
+    background: transparent;
+    isolation: isolate;
+  }
+
+  .portfolio-shell {
+    width: min(100%, 1040px);
+    margin: 0 auto;
+    padding: 2.5rem;
+    line-height: 1.6;
+    background: #fafafaf8;
+    border: 1px solid #ffffff90;
+    border-radius: 24px;
+    box-shadow: 0 24px 80px #1f29371f;
+  }
+
+  :global(a) {
+    color: #2563eb;
+    text-decoration: none;
+  }
+
+  :global(a:hover) {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    body {
+      padding: 1rem;
+    }
+
+    .portfolio-shell {
+      padding: 1.5rem;
+      border-radius: 18px;
+    }
+  }
+ </style>
