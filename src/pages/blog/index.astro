@@ -1,44 +1,43 @@
 ﻿---
 import BaseLayout from "../../layouts/Layout.astro";
-import { getCollection } from "astro:content";
+import {getCollection} from "astro:content";
 
 const posts = await getCollection("blog");
 
 posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
-
 ---
 
 <BaseLayout title="Some bolgs? or blogs?">
-  <h2>Bolg</h2>
+    <h2>Bolg</h2>
 
-  <ul>
-    {
-      posts.map((post) => (
-        <li>
-          <a href={`/blog/${post.id}/`}>
-            <strong>{post.data.title}</strong>
-          </a>
-          <br />
-          <small>{post.data.date.toDateString()}</small>
-          <p>{post.data.description}</p>
-        </li>
-      ))
-    }
-  </ul>
+    <ul>
+        {
+            posts.map((post) => (
+                <li>
+                    <a href={`/blog/${post.id}/`}>
+                        <strong>{post.data.title}</strong>
+                    </a>
+                    <br/>
+                    <small>{post.data.date.toDateString()}</small>
+                    <p>{post.data.description}</p>
+                </li>
+            ))
+        }
+    </ul>
 </BaseLayout>
 
 
 <style>
 
-  a:link,
-  a:visited,
-  a:active {
-    text-decoration:none;
-    color: #2563eb;
-  }
+    a:link,
+    a:visited,
+    a:active {
+        text-decoration: none;
+        color: #2563eb;
+    }
 
-  a:hover {
-    text-decoration: underline;
-  }
+    a:hover {
+        text-decoration: underline;
+    }
 
 </style>

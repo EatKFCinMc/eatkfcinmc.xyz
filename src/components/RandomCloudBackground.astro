@@ -1,66 +1,66 @@
 <div class="cloud-background" aria-hidden="true"></div>
 
 <style is:global>
-  html,
-  body {
-    min-height: 100%;
-  }
+    html,
+    body {
+        min-height: 100%;
+    }
 
-  html {
-    box-sizing: border-box;
-  }
+    html {
+        box-sizing: border-box;
+    }
 
-  .cloud-background {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background-image: var(--page-bg, url("/background/cloud/bg0.jpg"));
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    transform: translateZ(0);
-  }
+    .cloud-background {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background-image: var(--page-bg, url("/background/cloud/bg0.jpg"));
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        transform: translateZ(0);
+    }
 
-  body > :not(.cloud-background) {
-    position: relative;
-    z-index: 1;
-  }
+    body > :not(.cloud-background) {
+        position: relative;
+        z-index: 1;
+    }
 </style>
 
 <script is:inline>
-  (() => {
-    const backgrounds = [
-      "/background/cloud/bg0.jpg",
-      "/background/cloud/bg1.jpg",
-      "/background/cloud/bg2.jpg",
-      "/background/cloud/bg3.JPG",
-      "/background/cloud/bg4.JPG",
-      "/background/cloud/bg5.JPG",
-      "/background/cloud/bg6.JPG",
-      "/background/cloud/bg7.JPG",
-      "/background/cloud/bg8.JPG",
-      "/background/cloud/bg9.JPG",
-      "/background/cloud/bg10.JPG",
-    ];
+    (() => {
+        const backgrounds = [
+            "/background/cloud/bg0.jpg",
+            "/background/cloud/bg1.jpg",
+            "/background/cloud/bg2.jpg",
+            "/background/cloud/bg3.JPG",
+            "/background/cloud/bg4.JPG",
+            "/background/cloud/bg5.JPG",
+            "/background/cloud/bg6.JPG",
+            "/background/cloud/bg7.JPG",
+            "/background/cloud/bg8.JPG",
+            "/background/cloud/bg9.JPG",
+            "/background/cloud/bg10.JPG",
+        ];
 
-    const storageKey = "eatkfcinmc:last-cloud-background";
-    const lastBackground = window.sessionStorage.getItem(storageKey);
-    const candidates =
-      backgrounds.length > 1
-        ? backgrounds.filter((background) => background !== lastBackground)
-        : backgrounds;
-    const randomBackground =
-      candidates[Math.floor(Math.random() * candidates.length)];
-    const backgroundValue = `url("${randomBackground}")`;
+        const storageKey = "eatkfcinmc:last-cloud-background";
+        const lastBackground = window.sessionStorage.getItem(storageKey);
+        const candidates =
+            backgrounds.length > 1
+                ? backgrounds.filter((background) => background !== lastBackground)
+                : backgrounds;
+        const randomBackground =
+            candidates[Math.floor(Math.random() * candidates.length)];
+        const backgroundValue = `url("${randomBackground}")`;
 
-    window.sessionStorage.setItem(storageKey, randomBackground);
+        window.sessionStorage.setItem(storageKey, randomBackground);
 
-    document.documentElement.style.setProperty("--page-bg", backgroundValue);
-    document
-      .querySelectorAll(".cloud-background")
-      .forEach((element) => {
-        element.style.backgroundImage = backgroundValue;
-      });
-  })();
+        document.documentElement.style.setProperty("--page-bg", backgroundValue);
+        document
+            .querySelectorAll(".cloud-background")
+            .forEach((element) => {
+                element.style.backgroundImage = backgroundValue;
+            });
+    })();
 </script>

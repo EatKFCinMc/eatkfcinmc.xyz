@@ -1,260 +1,257 @@
 ---
 import RandomCloudBackground from "../components/RandomCloudBackground.astro";
 
-const { title = "A website" } = Astro.props;
+const {title = "A website"} = Astro.props;
 ---
 
 <html lang="en">
-  <head>
-    <link rel="icon" type="image/png" href="/icon.png" />
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>{title}</title>
-  </head>
-  
-  <body>
-    <RandomCloudBackground />
+    <head>
+        <link rel="icon" type="image/png" href="/icon.png"/>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width"/>
+        <title>{title}</title>
+    </head>
 
-    <div class="page-layout">
-      <aside class="sidebar">
-        <img
-            src="/images/profile.jpg"
-            alt="Profile photo"
-            class="profile-photo"
-        />
+    <body>
+        <RandomCloudBackground/>
 
-        <div class="sidebar-text">
-          <h2>EatKFCinMc</h2>
-          <p>A normal CS major student</p>
-          <p>University: nullptr</p>
-          <p>Spec: System and Software</p>
-          <p>Pronounce: idgaf</p>
-          <p><a href="https://discord.com/users/805337086793089054" target="_blank">Discord: eatkfcinmc</a></p>
-          <p>QQ: 2498543792</p>
+        <div class="page-layout">
+            <aside class="sidebar">
+                <img src="/images/profile.jpg" alt="Profile photo" class="profile-photo"/>
+
+                <div class="sidebar-text">
+                    <h2>EatKFCinMc</h2>
+                    <p>A normal CS major student</p>
+                    <p>University: nullptr</p>
+                    <p>Spec: System and Software</p>
+                    <p>Pronounce: idgaf</p>
+                    <p><a href="https://discord.com/users/805337086793089054" target="_blank">Discord: eatkfcinmc</a></p>
+                    <p>QQ: 2498543792</p>
+                </div>
+            </aside>
+
+            <div class="content">
+                <header>
+                    <h1 class="site-title">A place to stay</h1>
+
+                    <nav>
+                        <a href="/">Home</a>
+                        <a href="/blog">Blog</a>
+                        <a href="/about">About</a>
+                        <a href="https://drive.eatkfcinmc.xyz" target="_blank">Disk</a>
+                        <a href="/past">Past</a>
+                    </nav>
+                </header>
+
+                <main>
+                    <slot/>
+                </main>
+
+                <footer>
+                    <p>© 2099 ɔꟽuᴉϽᖵꓘʇɐƎ</p>
+                </footer>
+
+            </div>
         </div>
-      </aside>
 
-      <div class="content">
-        <header>
-          <h1 class="site-title">A place to stay</h1>
+        <script is:inline>
+            (() => {
+                const syncLayoutCompensation = () => {
+                    const scrollbarProbe = document.createElement("div");
+                    scrollbarProbe.style.cssText =
+                        "position:absolute;visibility:hidden;overflow:scroll;width:100px;height:100px;";
+                    document.body.appendChild(scrollbarProbe);
+                    const scrollbarWidth =
+                        scrollbarProbe.offsetWidth - scrollbarProbe.clientWidth;
+                    scrollbarProbe.remove();
 
-          <nav>
-            <a href="/">Home</a>
-            <a href="/blog">Blog</a>
-            <a href="/about">About</a>
-            <a href="https://drive.eatkfcinmc.xyz" target="_blank">Disk</a>
-          </nav>
-        </header>
+                    const hasVerticalScroll =
+                        document.documentElement.scrollHeight >
+                        document.documentElement.clientHeight;
+                    const isDesktop = window.matchMedia("(min-width: 769px)").matches;
+                    document.documentElement.style.setProperty(
+                        "--layout-scrollbar-compensation",
+                        !hasVerticalScroll && isDesktop ? `${scrollbarWidth / -2}px` : "0px"
+                    );
+                };
 
-        <main>
-          <slot />
-        </main>
-
-        <footer>
-          <p>© 2099 ɔꟽuᴉϽᖵꓘʇɐƎ</p>
-        </footer>
-        
-      </div>
-    </div>
-
-    <script is:inline>
-      (() => {
-        const syncLayoutCompensation = () => {
-          const scrollbarProbe = document.createElement("div");
-          scrollbarProbe.style.cssText =
-            "position:absolute;visibility:hidden;overflow:scroll;width:100px;height:100px;";
-          document.body.appendChild(scrollbarProbe);
-          const scrollbarWidth =
-            scrollbarProbe.offsetWidth - scrollbarProbe.clientWidth;
-          scrollbarProbe.remove();
-
-          const hasVerticalScroll =
-            document.documentElement.scrollHeight >
-            document.documentElement.clientHeight;
-          const isDesktop = window.matchMedia("(min-width: 769px)").matches;
-          document.documentElement.style.setProperty(
-            "--layout-scrollbar-compensation",
-            !hasVerticalScroll && isDesktop ? `${scrollbarWidth / -2}px` : "0px"
-          );
-        };
-
-        syncLayoutCompensation();
-        window.addEventListener("load", syncLayoutCompensation);
-        window.addEventListener("resize", syncLayoutCompensation);
-      })();
-    </script>
-  </body>
+                syncLayoutCompensation();
+                window.addEventListener("load", syncLayoutCompensation);
+                window.addEventListener("resize", syncLayoutCompensation);
+            })();
+        </script>
+    </body>
 </html>
 
 <style>
-  *,
-  *::before,
-  *::after {
-    box-sizing: inherit;
-  }
-  
-  body {
-    --content-width: 900px;
-    --layout-gap: 3rem;
+    *,
+    *::before,
+    *::after {
+        box-sizing: inherit;
+    }
 
-    box-sizing: border-box;
-    font-family: system-ui, sans-serif;
-    background: transparent;
-    min-height: calc(100vh - 4rem - 10px);
-    margin: 0;
-    padding: calc(2rem + 10px) 2rem 2rem;
-    isolation: isolate;
-  }
-
-  .page-layout {
-    display: grid;
-    grid-template-columns: max-content minmax(0, var(--content-width));
-    gap: var(--layout-gap);
-    align-items: start;
-    width: fit-content;
-    max-width: 100%;
-    margin: 0 auto;
-    transform: translateX(var(--layout-scrollbar-compensation, 0));
-  }
-  
-  .sidebar {
-    box-sizing: border-box;
-    padding: 32px 24px;
-  }
-  
-  .profile-photo {
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    object-fit: cover;
-    display: block;
-    margin: 0 auto 24px;
-    border: 3px solid #ddd;
-  }
-
-  .sidebar-text {
-    width: max-content;
-    background: #fafafab0;
-    border-radius: 25px;
-    padding: 0.5rem 1rem 1rem;
-  }
-
-  .sidebar-text h2 {
-    text-align: center;
-    margin: 20px 0;
-  }
-
-  .sidebar-text p {
-    margin: 8px 0;
-    line-height: 1.5;
-    white-space: nowrap;
-  }
-
-  .sidebar-text a:link,
-  .sidebar-text a:visited,
-  .sidebar-text a:active,
-  .sidebar-text a:hover {
-    text-decoration:none;
-    color: #222;
-  }
-  
-  .content {
-    box-sizing: border-box;
-    width: 100%;
-    min-width: 0;
-    margin: 0;
-    padding: 2rem 3rem;
-    line-height: 1.6;
-    overflow-wrap: break-word;
-    color: #222;
-    background: #fafafab0;
-    border-radius: 25px;
-  }
-  
-  header {
-    margin-bottom: 2rem;
-  }
-
-  .site-title {
-    margin-bottom: 0.5rem;
-  }
-
-  nav {
-    display: flex;
-    gap: 1rem;
-  }
-
-  a {
-    color: #2563eb;
-    text-decoration: none;
-  }
-
-  a:hover {
-    text-decoration: underline;
-  }
-
-  main {
-    margin-top: 2rem;
-  }
-
-  footer {
-    margin-top: 4rem;
-    color: #666;
-    font-size: 0.9rem;
-  }
-
-  
-  @media (max-width: 768px) {
     body {
-      min-height: calc(100vh - 2rem);
-      margin: 0;
-      padding: 1rem;
+        --content-width: 900px;
+        --layout-gap: 3rem;
+
+        box-sizing: border-box;
+        font-family: system-ui, sans-serif;
+        background: transparent;
+        min-height: calc(100vh - 4rem - 10px);
+        margin: 0;
+        padding: calc(2rem + 10px) 2rem 2rem;
+        isolation: isolate;
     }
 
     .page-layout {
-      display: block;
-      min-height: auto;
+        display: grid;
+        grid-template-columns: max-content minmax(0, var(--content-width));
+        gap: var(--layout-gap);
+        align-items: start;
+        width: fit-content;
+        max-width: 100%;
+        margin: 0 auto;
+        transform: translateX(var(--layout-scrollbar-compensation, 0));
     }
 
     .sidebar {
-      width: 100%;
-      padding: 1.5rem 1rem;
-    }
-
-    .sidebar-text {
-      width: auto;
+        box-sizing: border-box;
+        padding: 32px 24px;
     }
 
     .profile-photo {
-      width: 110px;
-      height: 110px;
-      margin-bottom: 1rem;
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        object-fit: cover;
+        display: block;
+        margin: 0 auto 24px;
+        border: 3px solid #ddd;
+    }
+
+    .sidebar-text {
+        width: max-content;
+        background: #fafafab0;
+        border-radius: 25px;
+        padding: 0.5rem 1rem 1rem;
     }
 
     .sidebar-text h2 {
-      font-size: 1.3rem;
+        text-align: center;
+        margin: 20px 0;
     }
 
     .sidebar-text p {
-      font-size: 0.95rem;
-      white-space: normal;
+        margin: 8px 0;
+        line-height: 1.5;
+        white-space: nowrap;
+    }
+
+    .sidebar-text a:link,
+    .sidebar-text a:visited,
+    .sidebar-text a:active,
+    .sidebar-text a:hover {
+        text-decoration: none;
+        color: #222;
     }
 
     .content {
-      width: 100%;
-      min-width: 0;
-      margin: 0;
-      padding: 1.5rem;
-      border-radius: 18px;
+        box-sizing: border-box;
+        width: 100%;
+        min-width: 0;
+        margin: 0;
+        padding: 2rem 3rem;
+        line-height: 1.6;
+        overflow-wrap: break-word;
+        color: #222;
+        background: #fafafab0;
+        border-radius: 25px;
     }
 
-    nav {
-      flex-wrap: wrap;
-      gap: 0.75rem;
+    header {
+        margin-bottom: 2rem;
     }
 
     .site-title {
-      font-size: 1.8rem;
+        margin-bottom: 0.5rem;
     }
-  }
+
+    nav {
+        display: flex;
+        gap: 1rem;
+    }
+
+    a {
+        color: #2563eb;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    main {
+        margin-top: 2rem;
+    }
+
+    footer {
+        margin-top: 4rem;
+        color: #666;
+        font-size: 0.9rem;
+    }
+
+
+    @media (max-width: 768px) {
+        body {
+            min-height: calc(100vh - 2rem);
+            margin: 0;
+            padding: 1rem;
+        }
+
+        .page-layout {
+            display: block;
+            min-height: auto;
+        }
+
+        .sidebar {
+            width: 100%;
+            padding: 1.5rem 1rem;
+        }
+
+        .sidebar-text {
+            width: auto;
+        }
+
+        .profile-photo {
+            width: 110px;
+            height: 110px;
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-text h2 {
+            font-size: 1.3rem;
+        }
+
+        .sidebar-text p {
+            font-size: 0.95rem;
+            white-space: normal;
+        }
+
+        .content {
+            width: 100%;
+            min-width: 0;
+            margin: 0;
+            padding: 1.5rem;
+            border-radius: 18px;
+        }
+
+        nav {
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .site-title {
+            font-size: 1.8rem;
+        }
+    }
 </style>
