@@ -1,0 +1,49 @@
+﻿---
+import {getCollection} from "astro:content";
+
+const posts = await getCollection("blog");
+posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<ul>
+    {
+        posts.map((post) => (
+                <li>
+                    <a href={`/blog/${post.id}/`}>
+                        <strong>{post.data.title}</strong>
+                    </a>
+                    <br/>
+                    <small>{post.data.date.toDateString()}</small>
+                    <p>{post.data.description}</p>
+                </li>
+        ))
+    }
+</ul>
+
+
+<style>
+
+    a:link,
+    a:visited,
+    a:active {
+        text-decoration: none;
+        color: #2563eb;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    h2.title {
+        padding: 30px 0 0 0;
+        line-height: 0;
+        font-size: 40px;
+    }
+
+    p.subtitle {
+        line-height: 50%;
+        font-style: italic;
+        padding: 0 0 2rem 0;
+    }
+
+</style>

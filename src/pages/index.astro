@@ -1,5 +1,6 @@
 ---
-import BaseLayout from "../layouts/Layout.astro";
+import BaseLayout from "../layouts/Layout.astro"
+import BlogList from "../components/BlogList.astro"
 
 
 import {getCollection} from "astro:content";
@@ -20,20 +21,7 @@ posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
     <p>建站后第一次更新主页！</p>
     <p>（空格）</p>
 
-    <ul>
-        {
-            posts.map((post) => (
-                <li>
-                    <a href={`/blog/${post.id}/`}>
-                        <strong>{post.data.title}</strong>
-                    </a>
-                    <br/>
-                    <small>{post.data.date.toDateString()}</small>
-                    <p>{post.data.description}</p>
-                </li>
-            ))
-        }
-    </ul>
+    <BlogList/>
 
 </BaseLayout>
 
